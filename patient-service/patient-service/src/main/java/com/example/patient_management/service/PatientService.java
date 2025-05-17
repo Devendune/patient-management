@@ -48,6 +48,7 @@ public class PatientService
         patient.setDateofBirth(LocalDate.parse(patientRequestDTO.getDateOfBirth()));
         patient.setRegisteredDate(LocalDate.parse(patientRequestDTO.getRegisteredDate()));
 
+        Patient updatedPatient=patientRepository.save(patient);
         return PatientMapper.toDTO(patient);
     }
 }
