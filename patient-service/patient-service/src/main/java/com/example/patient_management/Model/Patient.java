@@ -24,10 +24,22 @@ public class Patient
     private String email;
 
     @NotNull
+    @Column(name="date_of_birth")
     private LocalDate dateofBirth;
 
     @NotNull
     private String address;
+
+    @NotNull
+    private String registeredDate;
+
+    public String getRegisteredDate() {
+        return registeredDate;
+    }
+
+    public void setRegisteredDate(String registeredDate) {
+        this.registeredDate = registeredDate;
+    }
 
     public String getAddress() {
         return address;
