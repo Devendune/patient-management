@@ -4,10 +4,14 @@ import com.example.patient_management.DTO.PatientRequestDTO;
 import com.example.patient_management.DTO.PatientResponseDTO;
 import com.example.patient_management.Model.Patient;
 import com.example.patient_management.exceptions.EmailAlreadyExistsException;
+import com.example.patient_management.exceptions.PatientNotFoundException;
 import com.example.patient_management.mapper.PatientMapper;
 import com.example.patient_management.repository.PatientRepository;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PatientService
@@ -34,5 +38,16 @@ public class PatientService
         }
         Patient newPatient=patientRepository.save(PatientMapper.toModel(patientRequestDTO));
         return PatientMapper.toDTO(newPatient);
+    }
+    public PatientResponseDTO updatePatient(UUID id,PatientRequestDTO patientRequestDTO)
+    {
+        Patient patient = patientRepository.findById(id).orElseThrow(() -> new PatientNotFoundException("Patient not found with id "+id));
+        patient.setAddress(patientRequestDTO.getAddress());
+        patient.setEmail(patientRequestDTO.getEmail());
+        patient.setName(patientRequestDTO.getName());
+        patient.setDateofBirth(LocalDate.parse(patientRequestDTO.getDateOfBirth()));
+        patient.setRegisteredDate(LocalDate.parse(patientRequestDTO.getRegisteredDate()));
+
+        return PatientMapper.toDTO(patient);
     }
 }
