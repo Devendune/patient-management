@@ -2,8 +2,11 @@ package com.example.patient_management.controller;
 
 import com.example.patient_management.DTO.PatientRequestDTO;
 import com.example.patient_management.DTO.PatientResponseDTO;
+import com.example.patient_management.DTO.validators.CreatePatientValidationGroup;
 import com.example.patient_management.Model.Patient;
 import com.example.patient_management.service.PatientService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.groups.Default;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +18,8 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/patients")
+@Tag(name="Patients" ,description="This is a project for managing Patients")
+
 public class PatientController
 {
     private PatientService patientService;
@@ -24,6 +29,7 @@ public class PatientController
     }
 
     @GetMapping
+    @Operation(summary = "Get Patients")
     public List<PatientResponseDTO> getPatients()
     {
         List<PatientResponseDTO> patients=patientService.getPatients();
@@ -31,13 +37,15 @@ public class PatientController
     }
 
     @PostMapping("/createPatient")
-    public ResponseEntity<PatientResponseDTO> createPatient(@Valid @RequestBody PatientRequestDTO patientRequestDTO)
+    @Operation(summary = "Creating Patients")
+    public ResponseEntity<PatientResponseDTO> createPatient(@Validated({Default.class, CreatePatientValidationGroup.class}) @RequestBody PatientRequestDTO patientRequestDTO)
     {
       PatientResponseDTO patientResponseDTO=patientService.createPatient(patientRequestDTO);
       return ResponseEntity.ok().body(patientResponseDTO);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updatePatient/{id}")
+    @Operation(summary = "Updating Patients")
     public ResponseEntity<PatientResponseDTO> updatePatient(@PathVariable UUID id, @Validated({Default.class}) @RequestBody PatientRequestDTO patientRequestDTO)
     {
         PatientResponseDTO patientResponseDTO=patientService.updatePatient(id,patientRequestDTO);
