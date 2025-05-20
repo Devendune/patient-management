@@ -1,7 +1,6 @@
 package com.example.patient_management.repository;
 
 import com.example.patient_management.Model.Patient;
-import jakarta.persistence.Id;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
