@@ -39,6 +39,7 @@ public class PatientService
         Patient newPatient=patientRepository.save(PatientMapper.toModel(patientRequestDTO));
         return PatientMapper.toDTO(newPatient);
     }
+
     public PatientResponseDTO updatePatient(UUID id,PatientRequestDTO patientRequestDTO)
     {
         Patient patient = patientRepository.findById(id).orElseThrow(() -> new PatientNotFoundException("Patient not found with id "+id));
